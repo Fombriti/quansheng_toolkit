@@ -8,11 +8,15 @@
 
 Channels • scan lists • settings • calibration • DTMF • boot logo • firmware flashing — from a polished PySide6 GUI or the CLI.
 
+**Portable, single binary, fully offline** — bundles Python, Qt and 9 verified firmwares; no installer, no internet, no cloud.
+
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.10%E2%80%933.13-blue.svg)](#install--from-source)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](#download)
+[![Offline](https://img.shields.io/badge/offline-first-success.svg)](#download)
 [![Release](https://img.shields.io/github/v/release/Fombriti/quansheng_toolkit?include_prereleases&label=release)](https://github.com/Fombriti/quansheng_toolkit/releases)
 [![Tests](https://img.shields.io/badge/tests-377%20passing-success.svg)](#run-the-test-suite)
+[![Wiki](https://img.shields.io/badge/wiki-end--user%20manual-blueviolet.svg)](https://github.com/Fombriti/quansheng_toolkit/wiki)
 
 [**Download**](#download) · [**Quick start**](#quick-start) · [**Flashing firmware**](#flashing-firmware) · [**CLI**](#cli) · [**Roadmap**](#roadmap)
 
@@ -46,6 +50,7 @@ Channels • scan lists • settings • calibration • DTMF • boot logo • 
 
 ## Highlights
 
+- **Fully offline, portable, no installer.** The Windows `.exe` (~71 MB) bundles the Python interpreter, Qt, the toolkit code and **all 9 firmware images** — drop it on a USB stick and you have a complete radio-maintenance kit you can plug into any PC at a hamfest, club meeting or field site without touching a network.
 - **One-click flashing of bundled firmwares.** The Firmware tab ships **9 verified `.bin` images** — F4HWN open-source builds and Quansheng stock — with an anti-brick allowlist that refuses any combination not matching the live bootloader version.
 - **Live LCD mirror over USB.** See the radio's screen in real time on the desktop, save PNG screenshots. Verified end-to-end on F4HWN UV-K1(8) v3 / UV-K5 V3.
 - **CHIRP-compatible channel CSV.** Import and export the channel grid in the same 21-column format CHIRP uses, with scan-list assignments encoded in the `Comment` column for clean round-trip.
@@ -69,9 +74,20 @@ Channels • scan lists • settings • calibration • DTMF • boot logo • 
 > [!NOTE]
 > **First launch on Windows.** SmartScreen will warn about an "unrecognised publisher". Click **More info → Run anyway**. The binary isn't code-signed yet (signing certificates are paid; on the roadmap).
 
-The toolkit runs entirely **offline** — internet is only used if you click a release-link inside one of the firmware info cards.
+### Fully offline by design
 
-For macOS and Linux, build from source — see [Install — from source](#install--from-source).
+The toolkit makes **zero network calls during normal operation** — read/write EEPROM, edit channels, flash firmware, dump calibration, mirror the LCD: everything happens locally. The bundled firmware images live inside the binary; the SHA-256 manifest is shipped with the package; even the help text is local.
+
+The only thing that ever touches the network is **clicking a release-link** inside one of the firmware info cards (those open in your default browser, outside the toolkit).
+
+This makes the toolkit ideal for:
+
+- 🛠️ **Field maintenance** — a USB stick with `quansheng-toolkit.exe` is a complete portable kit
+- 🛡️ **Air-gapped environments** — emergency-comms setups, restricted networks
+- 🔒 **Privacy-conscious users** — your radio data never leaves your machine
+- 🌐 **Bad-internet locations** — hamfests, contests in remote sites, basements
+
+For macOS and Linux, build from source — see [Install — from source](#install--from-source). The from-source install needs the network only for `pip install`; after that it's fully offline too.
 
 ## Supported hardware
 
