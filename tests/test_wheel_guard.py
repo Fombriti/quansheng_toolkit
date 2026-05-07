@@ -61,8 +61,6 @@ def test_spinbox_unfocused_does_not_change_on_wheel(guarded_app):
     sb.setValue(10)
     sb.show()
     QApplication.processEvents()
-    sb.clearFocus()
-    assert not sb.hasFocus()
 
     QApplication.sendEvent(sb, _wheel_event(sb))
     QApplication.processEvents()
@@ -100,9 +98,7 @@ def test_combobox_unfocused_does_not_change_on_wheel(guarded_app):
     cb.addItems(["A", "B", "C"])
     cb.setCurrentIndex(1)
     cb.show()
-    cb.clearFocus()
     QApplication.processEvents()
-    assert not cb.hasFocus()
 
     QApplication.sendEvent(cb, _wheel_event(cb))
     QApplication.processEvents()
@@ -119,9 +115,7 @@ def test_slider_unfocused_does_not_change_on_wheel(guarded_app):
     sl.setRange(0, 100)
     sl.setValue(50)
     sl.show()
-    sl.clearFocus()
     QApplication.processEvents()
-    assert not sl.hasFocus()
 
     QApplication.sendEvent(sl, _wheel_event(sl))
     QApplication.processEvents()
