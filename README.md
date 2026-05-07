@@ -14,9 +14,9 @@ Channels • scan lists • settings • calibration • DTMF • boot logo • 
 [![Python](https://img.shields.io/badge/python-3.10%E2%80%933.13-blue.svg)](#install--from-source)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](#download)
 [![Offline](https://img.shields.io/badge/offline-first-success.svg)](#download)
-[![Release](https://img.shields.io/github/v/release/Fombriti/quansheng_toolkit?include_prereleases&label=release)](https://github.com/Fombriti/quansheng_toolkit/releases)
+[![Release](https://img.shields.io/github/v/release/knoinok/quansheng_toolkit?include_prereleases&label=release)](https://github.com/knoinok/quansheng_toolkit/releases)
 [![Tests](https://img.shields.io/badge/tests-377%20passing-success.svg)](#run-the-test-suite)
-[![Wiki](https://img.shields.io/badge/wiki-end--user%20manual-blueviolet.svg)](https://github.com/Fombriti/quansheng_toolkit/wiki)
+[![Wiki](https://img.shields.io/badge/wiki-end--user%20manual-blueviolet.svg)](https://github.com/knoinok/quansheng_toolkit/wiki)
 
 [**Download**](#download) · [**Quick start**](#quick-start) · [**Flashing firmware**](#flashing-firmware) · [**CLI**](#cli) · [**Roadmap**](#roadmap)
 
@@ -67,7 +67,7 @@ Channels • scan lists • settings • calibration • DTMF • boot logo • 
 > [!TIP]
 > **Windows users — easiest path.** A single self-contained `.exe` is published on every release. Python interpreter, Qt and all 9 bundled firmwares are embedded — no installer, no internet needed after download.
 
-1. Open **[Releases](https://github.com/Fombriti/quansheng_toolkit/releases)**.
+1. Open **[Releases](https://github.com/knoinok/quansheng_toolkit/releases)**.
 2. Download `quansheng-toolkit.exe` from the latest tagged release (~71 MB).
 3. Double-click to launch.
 
@@ -145,7 +145,7 @@ Required: Python 3.10 or newer.
 <summary><strong>Windows</strong></summary>
 
 ```bat
-git clone https://github.com/Fombriti/quansheng_toolkit.git
+git clone https://github.com/knoinok/quansheng_toolkit.git
 cd quansheng_toolkit
 py -3.13 -m pip install -r requirements.txt PySide6
 py -3.13 -m quansheng_toolkit.gui
@@ -158,7 +158,7 @@ py -3.13 -m quansheng_toolkit.gui
 
 ```bash
 brew install python@3.13
-git clone https://github.com/Fombriti/quansheng_toolkit.git
+git clone https://github.com/knoinok/quansheng_toolkit.git
 cd quansheng_toolkit
 python3 -m pip install -r requirements.txt PySide6
 python3 -m quansheng_toolkit.gui
@@ -174,7 +174,7 @@ python3 -m quansheng_toolkit.gui
 
 ```bash
 sudo apt install python3 python3-pip python3-venv     # or distro equivalent
-git clone https://github.com/Fombriti/quansheng_toolkit.git
+git clone https://github.com/knoinok/quansheng_toolkit.git
 cd quansheng_toolkit
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt PySide6
@@ -342,4 +342,4 @@ Read [`CONTRIBUTING.md`](CONTRIBUTING.md) for:
 - the bootloader-mapping process for new radios;
 - the F4HWN channel-attribute trap that cost an evening of debugging on the UV-K1(8) v3 (`band=7` marks an empty slot — encoding the actual band 0–6 from frequency is mandatory for the radio to recognise channels).
 
-Bug reports and feature requests welcome via [Issues](https://github.com/Fombriti/quansheng_toolkit/issues). For longer discussions, use [Discussions](https://github.com/Fombriti/quansheng_toolkit/discussions).
+Bug reports and feature requests welcome via [Issues](https://github.com/knoinok/quansheng_toolkit/issues). For longer discussions, use [Discussions](https://github.com/knoinok/quansheng_toolkit/discussions).

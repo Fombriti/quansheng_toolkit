@@ -9,7 +9,7 @@ description = "Manage Quansheng UV-K1, UV-K1(8) Mini Kong v3 and UV-K5 V3 radios
 readme = "README.md"
 license = { text = "Apache-2.0" }
 requires-python = ">=3.10"
-authors = [{ name = "Fombriti" }]
+authors = [{ name = "knoinok" }]
 keywords = ["quansheng", "uv-k1", "uv-k5", "uv-k5-v3", "ham-radio", "f4hwn", "chirp", "eeprom"]
 classifiers = [
     "Development Status :: 3 - Alpha",
@@ -45,10 +45,10 @@ quansheng-toolkit = "quansheng_toolkit.cli:main"
 quansheng-toolkit-gui = "quansheng_toolkit.gui.app:run"
 
 [project.urls]
-Homepage = "https://github.com/Fombriti/quansheng_toolkit"
-Source = "https://github.com/Fombriti/quansheng_toolkit"
-Issues = "https://github.com/Fombriti/quansheng_toolkit/issues"
-Discussions = "https://github.com/Fombriti/quansheng_toolkit/discussions"
+Homepage = "https://github.com/knoinok/quansheng_toolkit"
+Source = "https://github.com/knoinok/quansheng_toolkit"
+Issues = "https://github.com/knoinok/quansheng_toolkit/issues"
+Discussions = "https://github.com/knoinok/quansheng_toolkit/discussions"
 
 # Flat layout: the repository root IS the `quansheng_toolkit` package
 # itself. We tell setuptools to map the package name onto the repo root

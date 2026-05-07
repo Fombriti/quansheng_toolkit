@@ -36,7 +36,7 @@ radio, **please** read the safety section below before you push.
 ## Setting up
 
 ```bash
-git clone https://github.com/Fombriti/quansheng_toolkit.git
+git clone https://github.com/knoinok/quansheng_toolkit.git
 cd quansheng_toolkit
 pip install -e ".[dev]"
 pytest -q       # should be green on a fresh checkout
