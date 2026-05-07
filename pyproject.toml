@@ -1,0 +1,76 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "quansheng_toolkit"
+version = "0.3.0"
+description = "Manage Quansheng UV-K1, UV-K1(8) Mini Kong v3 and UV-K5 V3 radios. Channels, scan lists, settings, calibration, DTMF, boot logo and firmware flashing — CLI + PySide6 GUI, cross-platform."
+readme = "README.md"
+license = { text = "Apache-2.0" }
+requires-python = ">=3.10"
+authors = [{ name = "Fombriti" }]
+keywords = ["quansheng", "uv-k1", "uv-k5", "uv-k5-v3", "ham-radio", "f4hwn", "chirp", "eeprom"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Communications :: Ham Radio",
+]
+dependencies = [
+    "pyserial>=3.5",
+    "rich>=13.0",
+]
+
+[project.optional-dependencies]
+gui = [
+    "PySide6>=6.6",
+]
+dev = [
+    "pytest>=8.0",
+    "pyinstaller>=6.0",
+]
+
+[project.scripts]
+quansheng-toolkit = "quansheng_toolkit.cli:main"
+quansheng-toolkit-gui = "quansheng_toolkit.gui.app:run"
+
+[project.urls]
+Homepage = "https://github.com/Fombriti/quansheng_toolkit"
+Source = "https://github.com/Fombriti/quansheng_toolkit"
+Issues = "https://github.com/Fombriti/quansheng_toolkit/issues"
+Discussions = "https://github.com/Fombriti/quansheng_toolkit/discussions"
+
+# Flat layout: the repository root IS the `quansheng_toolkit` package
+# itself. We tell setuptools to map the package name onto the repo root
+# (empty path) and enumerate the sub-packages explicitly.
+[tool.setuptools]
+packages = [
+    "quansheng_toolkit",
+    "quansheng_toolkit.kradio",
+    "quansheng_toolkit.kradio.models",
+    "quansheng_toolkit.gui",
+    "quansheng_toolkit.gui.views",
+]
+
+[tool.setuptools.package-dir]
+"quansheng_toolkit" = ""
+"quansheng_toolkit.kradio" = "kradio"
+"quansheng_toolkit.kradio.models" = "kradio/models"
+"quansheng_toolkit.gui" = "gui"
+"quansheng_toolkit.gui.views" = "gui/views"
+
+# Ship the bundled F4HWN firmware images and their manifest with the
+# wheel so `pip install` users get the same one-click flash list as
+# someone running from a git clone.
+[tool.setuptools.package-data]
+"quansheng_toolkit" = ["firmwares/*.bin", "firmwares/*.json", "firmwares/*.md"]

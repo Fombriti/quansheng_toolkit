@@ -1,0 +1,89 @@
+name: Build distributables
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            artifact_name: quansheng-toolkit-windows
+            binary_glob: dist/quansheng-toolkit*
+          - os: macos-latest
+            artifact_name: quansheng-toolkit-macos
+            binary_glob: dist/quansheng-toolkit*
+          - os: ubuntu-latest
+            artifact_name: quansheng-toolkit-linux
+            binary_glob: dist/quansheng-toolkit*
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - name: Install package + dev + gui extras
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev,gui]"
+
+      - name: Run tests before packaging
+        run: pytest tests/
+
+      - name: Build with PyInstaller
+        shell: bash
+        run: |
+          # Path separator for --add-data differs by OS: ';' on Windows,
+          # ':' elsewhere. Pick it based on the runner.
+          if [[ "${{ runner.os }}" == "Windows" ]]; then
+            sep=";"
+          else
+            sep=":"
+          fi
+          # The icon flag is Windows/macOS only; Linux ignores it but
+          # PyInstaller still accepts it without error.
+          pyinstaller --onefile --windowed \
+            --name quansheng-toolkit \
+            --icon assets/quansheng-toolkit.ico \
+            --collect-submodules quansheng_toolkit \
+            --add-data "firmwares${sep}firmwares" \
+            --add-data "assets${sep}assets" \
+            launcher.py
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact_name }}
+          path: ${{ matrix.binary_glob }}
+          if-no-files-found: error
+
+  release:
+    name: Publish GitHub Release
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with: { path: dist }
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/**/*
+          draft: true
+          generate_release_notes: true

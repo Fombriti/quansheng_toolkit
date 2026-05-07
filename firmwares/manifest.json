@@ -1,0 +1,230 @@
+{
+  "schema_version": 1,
+  "description": "Bundled F4HWN firmware images for one-click flashing in the toolkit.",
+  "firmwares": [
+    {
+      "id": "f4hwn_5_4_0_k1_k5v3",
+      "filename": "f4hwn_fusion_5.4.0_k1_k5v3.bin",
+      "name": "F4HWN Fusion 5.4.0",
+      "version": "5.4.0",
+      "target": "k5_v3",
+      "compatible_targets": [
+        "k5_v3",
+        "k1"
+      ],
+      "mcu": "PY32F071",
+      "supports": [
+        "UV-K1",
+        "UV-K1(8) v3",
+        "UV-K5 V3"
+      ],
+      "tested_on": [
+        "UV-K1",
+        "UV-K1(8) v3",
+        "UV-K5 V3"
+      ],
+      "release_url": "https://github.com/armel/uv-k1-k5v3-firmware-custom/releases/tag/v5.4.0",
+      "license": "Apache-2.0",
+      "is_recommended": true,
+      "size_bytes": 91948,
+      "sha256": "4eb74fd77b24a5669072d7d33804297ce8730d0b3e5b3090836b53c45efa9039",
+      "vendor": "F4HWN (open source)"
+    },
+    {
+      "id": "f4hwn_5_3_1_k1_k5v3",
+      "filename": "f4hwn_fusion_5.3.1_k1_k5v3.bin",
+      "name": "F4HWN Fusion 5.3.1",
+      "version": "5.3.1",
+      "target": "k5_v3",
+      "compatible_targets": [
+        "k5_v3",
+        "k1"
+      ],
+      "mcu": "PY32F071",
+      "supports": [
+        "UV-K1",
+        "UV-K1(8) v3",
+        "UV-K5 V3"
+      ],
+      "tested_on": [],
+      "release_url": "https://github.com/armel/uv-k1-k5v3-firmware-custom/releases/tag/v5.3.1",
+      "license": "Apache-2.0",
+      "is_recommended": false,
+      "size_bytes": 85708,
+      "sha256": "e403fb7279ebb96baca4eb897aca6cd1745d7137b3b981a6da8f7c1cc71358db",
+      "vendor": "F4HWN (open source)"
+    },
+    {
+      "id": "f4hwn_4_3_2_k5v3",
+      "filename": "f4hwn_fusion_4.3.2_k5v3.bin",
+      "name": "F4HWN Fusion 4.3.2 (K5 V3 only)",
+      "version": "4.3.2",
+      "target": "k5_v3",
+      "compatible_targets": [
+        "k5_v3"
+      ],
+      "mcu": "PY32F071",
+      "supports": [
+        "UV-K5 V3"
+      ],
+      "tested_on": [
+        "UV-K5 V3"
+      ],
+      "release_url": "https://github.com/armel/uv-k1-k5v3-firmware-custom/releases",
+      "license": "Apache-2.0",
+      "is_recommended": false,
+      "size_bytes": 80876,
+      "sha256": "d08f3b14301225135c8bfac8c34242ccd9e808f641bf157543ea39d5779a7392",
+      "vendor": "F4HWN (open source)"
+    },
+    {
+      "id": "f4hwn_4_3_k5_k6_basic",
+      "filename": "f4hwn_4.3_k5_k6_basic.bin",
+      "name": "F4HWN 4.3 K5/K6 \u2014 basic",
+      "version": "4.3",
+      "target": "k5_k6",
+      "compatible_targets": [
+        "k5_k6"
+      ],
+      "mcu": "DP32G030",
+      "supports": [
+        "UV-K5",
+        "UV-K5(8)",
+        "UV-K6",
+        "UV-5R Plus",
+        "UV-K5 V1/V2"
+      ],
+      "tested_on": [],
+      "release_url": "https://github.com/armel/uv-k5-firmware-custom/releases/tag/v4.3",
+      "license": "Apache-2.0",
+      "is_recommended": true,
+      "notes": "Standard build \u2014 recommended for most K5/K6 users.",
+      "size_bytes": 61226,
+      "sha256": "6ce012303613134b989739d50589d8e380389f5c7b19b7a5df6c2195533ff8d7",
+      "vendor": "F4HWN (open source)"
+    },
+    {
+      "id": "f4hwn_4_3_k5_k6_bandscope",
+      "filename": "f4hwn_4.3_k5_k6_bandscope.bin",
+      "name": "F4HWN 4.3 K5/K6 \u2014 bandscope",
+      "version": "4.3",
+      "target": "k5_k6",
+      "compatible_targets": [
+        "k5_k6"
+      ],
+      "mcu": "DP32G030",
+      "supports": [
+        "UV-K5",
+        "UV-K5(8)",
+        "UV-K6",
+        "UV-5R Plus",
+        "UV-K5 V1/V2"
+      ],
+      "tested_on": [],
+      "release_url": "https://github.com/armel/uv-k5-firmware-custom/releases/tag/v4.3",
+      "license": "Apache-2.0",
+      "is_recommended": false,
+      "notes": "Adds a real-time bandscope/spectrum analyzer at the cost of FM broadcast support.",
+      "size_bytes": 61234,
+      "sha256": "1246def1e0a001d1f7d676e5d670baf754d02f8c9399d85351f0aeb520b3c14c",
+      "vendor": "F4HWN (open source)"
+    },
+    {
+      "id": "f4hwn_4_3_k5_k6_broadcast",
+      "filename": "f4hwn_4.3_k5_k6_broadcast.bin",
+      "name": "F4HWN 4.3 K5/K6 \u2014 broadcast",
+      "version": "4.3",
+      "target": "k5_k6",
+      "compatible_targets": [
+        "k5_k6"
+      ],
+      "mcu": "DP32G030",
+      "supports": [
+        "UV-K5",
+        "UV-K5(8)",
+        "UV-K6",
+        "UV-5R Plus",
+        "UV-K5 V1/V2"
+      ],
+      "tested_on": [],
+      "release_url": "https://github.com/armel/uv-k5-firmware-custom/releases/tag/v4.3",
+      "license": "Apache-2.0",
+      "is_recommended": false,
+      "notes": "Extended FM broadcast (76-108 MHz) at the cost of bandscope.",
+      "size_bytes": 60206,
+      "sha256": "108d0de1b8ef764e8add9d7b431472bebba6f235c350223cfdbc65cbabfe8f5d",
+      "vendor": "F4HWN (open source)"
+    },
+    {
+      "id": "stock_k1_7_03_01",
+      "filename": "stock_k1_7.03.01.bin",
+      "name": "Quansheng UV-K1 Stock 7.03.01 (official)",
+      "version": "7.03.01",
+      "target": "k1",
+      "compatible_targets": [
+        "k1"
+      ],
+      "mcu": "PY32F071",
+      "supports": [
+        "UV-K1"
+      ],
+      "tested_on": [
+        "UV-K1"
+      ],
+      "release_url": "https://en.qsfj.com/support/downloads/",
+      "license": "Quansheng proprietary, freely distributed by manufacturer",
+      "is_recommended": false,
+      "vendor": "Quansheng",
+      "notes": "Official Quansheng stock firmware. Bundled by mirror from simonthewizard.com (community) since qsfj.com's downloads page is JS-only and not directly linkable.",
+      "size_bytes": 71286,
+      "sha256": "9a5f489ff38cfa18d00e6b50f84540cf9deb334f6faec05dd5e3810d815b93aa"
+    },
+    {
+      "id": "stock_k1_7_02_02",
+      "filename": "stock_k1_7.02.02.bin",
+      "name": "Quansheng UV-K1 Stock 7.02.02 (official)",
+      "version": "7.02.02",
+      "target": "k1",
+      "compatible_targets": [
+        "k1"
+      ],
+      "mcu": "PY32F071",
+      "supports": [
+        "UV-K1"
+      ],
+      "tested_on": [],
+      "release_url": "https://en.qsfj.com/support/downloads/",
+      "license": "Quansheng proprietary, freely distributed by manufacturer",
+      "is_recommended": false,
+      "vendor": "Quansheng",
+      "notes": "Older Quansheng stock build. Useful if 7.03.x has a regression you want to dodge.",
+      "size_bytes": 75042,
+      "sha256": "716710f6199cea4a020eee9db0b6378ff030e03dd58a65ba8aa53c3a92f0d8d3"
+    },
+    {
+      "id": "stock_k5v3_7_00_11",
+      "filename": "stock_k5v3_7.00.11.bin",
+      "name": "Quansheng UV-K5 V3 Stock 7.00.11 (official)",
+      "version": "7.00.11",
+      "target": "k5_v3",
+      "compatible_targets": [
+        "k5_v3"
+      ],
+      "mcu": "PY32F071",
+      "supports": [
+        "UV-K5 V3",
+        "UV-K1(8) v3 (Mini Kong, same MCU+BL)"
+      ],
+      "tested_on": [
+        "UV-K5 V3"
+      ],
+      "release_url": "https://en.qsfj.com/support/downloads/",
+      "license": "Quansheng proprietary, freely distributed by manufacturer",
+      "is_recommended": false,
+      "vendor": "Quansheng",
+      "notes": "Stock 7.00.x firmware-locks the EEPROM \u2014 channel/setting writes are silently rejected even via the official protocol. Useful only as a 'reset to factory' option.",
+      "size_bytes": 71712,
+      "sha256": "f4e5264a6f9a5436a6c75f7b217c60ba002cec04928f247392b9968c5c9458cb"
+    }
+  ]
+}

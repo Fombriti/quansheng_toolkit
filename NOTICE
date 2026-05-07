@@ -1,0 +1,27 @@
+quansheng_toolkit
+Copyright 2026 Fombriti
+
+Licensed under the Apache License, Version 2.0. See LICENSE for the full
+license text.
+
+================================================================================
+
+Acknowledgements
+----------------
+
+This project is built on top of years of community reverse-engineering work.
+In particular it is informed by:
+
+  - sq5bpf's UV-K5 reverse engineering and `k5prog` reference implementation
+    (https://github.com/sq5bpf/uvk5-reverse-engineering, GPLv3)
+  - The CHIRP driver `f4hwn.fusion.chirp.v5.4.0.py` by F4HWN, EGZUMER, JOC2,
+    bundled with the F4HWN Fusion firmware (Apache 2.0 / GPL-2 dual)
+  - The amnemonic Quansheng_UV-K5_Firmware project communication notes
+  - The F4HWN Fusion firmware itself
+    (https://github.com/armel/uv-k1-k5v3-firmware-custom)
+  - The kk7ds CHIRP project (https://github.com/kk7ds/chirp), used as
+    reference for the legacy UV-K5 V1/V2 stock memory map
+
+The protocol implementation in `kradio/protocol.py` is a clean-room
+re-implementation that follows the published specs and the structure of the
+CHIRP driver, but contains no copied code from any of those projects.

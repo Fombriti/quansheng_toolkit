@@ -1,0 +1,49 @@
+# EEPROM dumps & user data — NEVER commit these (calibration is unique to
+# each radio; channel maps may contain personal frequencies).
+*.bin
+# But the bundled F4HWN firmwares live in firmwares/ and ARE tracked.
+!firmwares/*.bin
+backups/
+plan.json
+theme_gallery/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+.python-version
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# Test / coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*.bak
+
+# OS
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# PyInstaller
+*.spec
+release/
+
+# Logs / temp
+*.log
+*.tmp

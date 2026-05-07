@@ -1,0 +1,24 @@
+name: Feature request
+description: Suggest an improvement or new capability
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like to do?
+      placeholder: |
+        e.g. Edit per-channel CTCSS/DCS tones inline in the Channels view.
+    validations:
+      required: true
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Why?
+      description: What workflow does this unblock?
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you've considered
+      placeholder: "e.g. Editing tones in CHIRP and re-uploading"

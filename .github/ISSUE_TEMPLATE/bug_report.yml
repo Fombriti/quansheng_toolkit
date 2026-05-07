@@ -1,0 +1,64 @@
+name: Bug report
+description: Something does not work as expected
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: A clear description of the bug.
+      placeholder: |
+        e.g. After clicking Apply Changes the radio froze and the LCD went blank.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: How to reproduce
+      placeholder: |
+        1. Read EEPROM
+        2. Edit channel 17 scan list to L1
+        3. Click Apply Changes
+        4. Radio hangs
+    validations:
+      required: true
+
+  - type: input
+    id: radio_model
+    attributes:
+      label: Radio model
+      placeholder: "UV-K1 / UV-K5 V3 / UV-K5 V1 / UV-K5(8) / UV-K6"
+    validations:
+      required: true
+
+  - type: input
+    id: firmware
+    attributes:
+      label: Firmware version (as reported by `info` or the dashboard FW badge)
+      placeholder: "F4HWN v5.4.0  /  7.03.4 (stock K1)  /  …"
+    validations:
+      required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: Operating system + Python version
+      placeholder: "Windows 11 + Python 3.13.1  /  macOS 14.4 + Python 3.13  /  …"
+    validations:
+      required: true
+
+  - type: input
+    id: theme
+    attributes:
+      label: Active theme
+      placeholder: "Cockpit · Amber (Dark)"
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / screenshots
+      description: |
+        Paste anything from the status bar, the GUI's error dialog, or terminal
+        output. Screenshots welcome.
+      render: shell
