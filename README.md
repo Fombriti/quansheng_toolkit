@@ -247,21 +247,24 @@ quansheng_toolkit/
 
 ## Building distributable binaries
 
-CI builds Windows / macOS / Linux artifacts on every `vX.Y.Z` tag and attaches them to a draft GitHub Release:
+CI builds Windows and macOS artifacts on every `vX.Y.Z` tag and attaches them to a draft GitHub Release:
 
 ```bash
 git tag v0.3.0
 git push origin v0.3.0
 # → dist/quansheng-toolkit.exe   (Windows)
-# → dist/quansheng-toolkit       (macOS / Linux)
+# → dist/quansheng-toolkit       (macOS)
 ```
 
 The Windows `.exe` includes Python 3.13, PySide6, the toolkit code and all 9 bundled firmwares — no separate downloads needed.
 
+> [!NOTE]
+> Linux is **not** built by CI right now. Linux users build [from source](#install--from-source) (the Linux steps take ~2 minutes on a fresh distro). PyInstaller produces a working Linux binary too — see the manual command below — but pinning the right Qt/EGL system libraries on every distro is fragile, so we ship from source instead.
+
 To build locally:
 
 ```bash
-pip install -e ".[dev,gui]"
+pip install -e ".[dev,gui]" pillow
 pyinstaller --onefile --windowed \
     --name quansheng-toolkit \
     --icon assets/quansheng-toolkit.ico \
