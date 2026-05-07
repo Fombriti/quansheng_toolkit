@@ -52,15 +52,20 @@ jobs:
         shell: bash
         run: |
           # Path separator for --add-data differs by OS: ';' on Windows,
-          # ':' elsewhere. Pick it based on the runner.
+          # ':' elsewhere.
+          # --windowed: on Windows, suppresses the console-window popup.
+          #   On macOS it would bundle into a .app, which combined with
+          #   --onefile produces a directory-shaped artifact that
+          #   uploads as multiple unrelated files. We want a single
+          #   binary on macOS, so we drop the flag there.
           if [[ "${{ runner.os }}" == "Windows" ]]; then
             sep=";"
+            windowed_flag="--windowed"
           else
             sep=":"
+            windowed_flag=""
           fi
-          # The icon flag is Windows/macOS only; Linux ignores it but
-          # PyInstaller still accepts it without error.
-          pyinstaller --onefile --windowed \
+          pyinstaller --onefile $windowed_flag \
             --name quansheng-toolkit \
             --icon assets/quansheng-toolkit.ico \
             --collect-submodules quansheng_toolkit \
