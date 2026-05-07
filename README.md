@@ -343,11 +343,3 @@ Read [`CONTRIBUTING.md`](CONTRIBUTING.md) for:
 - the F4HWN channel-attribute trap that cost an evening of debugging on the UV-K1(8) v3 (`band=7` marks an empty slot — encoding the actual band 0–6 from frequency is mandatory for the radio to recognise channels).
 
 Bug reports and feature requests welcome via [Issues](https://github.com/Fombriti/quansheng_toolkit/issues). For longer discussions, use [Discussions](https://github.com/Fombriti/quansheng_toolkit/discussions).
-
----
-
-<div align="center">
-
-73 de Fombriti
-
-</div>
