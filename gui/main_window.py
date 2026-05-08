@@ -272,6 +272,7 @@ class MainWindow(QMainWindow):
         self.calibration_view.restore_calibration_requested.connect(
             self._restore_calibration
         )
+        self.calibration_view.verify_dump_requested.connect(self._verify_calibration)
         self.firmware_view.dfu_identify_requested.connect(self._dfu_identify)
         self.firmware_view.flash_firmware_requested.connect(self._flash_firmware)
 
@@ -630,13 +631,120 @@ class MainWindow(QMainWindow):
         self.status_left.setText(
             f"  Calibration dumped ({len(data)} bytes) → {out}"
         )
+        # Pre-fill Verify's file picker with this path so the user can
+        # re-read + compare in one extra click.
+        self.calibration_view.set_last_dump_path(str(out))
         QMessageBox.information(
             self,
             "Calibration dumped",
             f"Saved {len(data)} bytes to:\n{out}\n\n"
             f"Keep this file safe — you'll need it if you ever have to "
-            f"restore calibration."
+            f"restore calibration.\n\n"
+            f"Tip: click Verify dump… to confirm the read is stable "
+            f"before relying on this backup."
         )
+
+    # ---- Calibration verify ----------------------------------------------
+
+    def _verify_calibration(self, path: str) -> None:
+        """Re-read the calibration region and diff it against `path`.
+
+        This is the trustworthy way to confirm a saved dump is good: a
+        fresh read taken right after the original dump should be byte-
+        for-byte identical. Any divergence means either the link is
+        flaky or the dump was taken from a different radio.
+        """
+        if self._busy:
+            return
+        region = self._calibration_region_for_active()
+        if region is None:
+            QMessageBox.warning(
+                self, "Read EEPROM first",
+                "Read the EEPROM (Dashboard → Read EEPROM) before verifying "
+                "a calibration dump so the toolkit knows which radio is "
+                "connected.",
+            )
+            return
+        self._pending_verify_path = path
+        port = self.prefs.default_port or self.state.port_name or None
+        self._set_busy(True)
+        self.status_left.setText(
+            f"  Verifying calibration: re-reading "
+            f"0x{region[0]:04X}..0x{region[1]:04X}…"
+        )
+        worker = DumpCalibrationWorker(port)
+        worker.signals.progress.connect(self._on_read_progress)
+        worker.signals.succeeded.connect(self._on_calibration_verified)
+        worker.signals.failed.connect(self._on_worker_failed)
+        worker.signals.finished.connect(lambda: self._set_busy(False))
+        self._cal_worker = worker
+        worker.start()
+
+    def _on_calibration_verified(self, payload: dict) -> None:
+        from pathlib import Path
+        path = getattr(self, "_pending_verify_path", None)
+        self._pending_verify_path = None
+        if not path:
+            return
+
+        fresh = bytes(payload["data"])
+        try:
+            saved = Path(path).read_bytes()
+        except OSError as e:
+            QMessageBox.critical(self, "Read failed", str(e))
+            return
+
+        # Older 768 B dumps are stored with 256 B of leading 0xFF padding;
+        # newer reads return only the calibration region. Strip the
+        # padding so the comparison stays meaningful.
+        if len(saved) == 0x300 and saved[:0x100] == b"\xff" * 0x100:
+            saved = saved[0x100:]
+
+        if len(fresh) != len(saved):
+            self.status_left.setText("  Verify FAILED — size mismatch")
+            QMessageBox.critical(
+                self, "Verify failed: size mismatch",
+                f"The saved dump and the fresh read have different sizes:\n"
+                f"  Saved : {len(saved)} bytes\n"
+                f"  Radio : {len(fresh)} bytes\n\n"
+                f"Almost certainly a wrong-radio or wrong-profile file. "
+                f"Do NOT restore from it."
+            )
+            return
+
+        n = len(fresh)
+        diffs = sum(1 for i in range(n) if fresh[i] != saved[i])
+        if diffs == 0:
+            self.status_left.setText(
+                f"  Verify OK — {n} bytes match byte-for-byte"
+            )
+            QMessageBox.information(
+                self, "Verify OK",
+                f"Byte-for-byte identical ({n} bytes).\n\n"
+                f"This dump is a stable, trustworthy backup of the "
+                f"connected radio's calibration."
+            )
+        else:
+            first = next(i for i in range(n) if fresh[i] != saved[i])
+            ratio = 100 * (1 - diffs / n)
+            self.status_left.setText(
+                f"  Verify MISMATCH — {diffs}/{n} bytes differ"
+            )
+            QMessageBox.warning(
+                self, "Verify failed: contents differ",
+                f"The saved dump and the radio's current calibration "
+                f"DON'T match:\n"
+                f"  Bytes compared : {n}\n"
+                f"  Bytes differing: {diffs}\n"
+                f"  First diff at  : 0x{first:04X}\n"
+                f"  Match ratio    : {ratio:.2f}%\n\n"
+                f"Possible causes:\n"
+                f"  • Flaky USB/serial link → take two fresh dumps and "
+                f"Compare them; if those also differ, replace the cable.\n"
+                f"  • Dump is from a different radio → don't restore it.\n"
+                f"  • Calibration changed since the dump (rare) → take a "
+                f"new backup."
+            )
 
     # ---- Calibration restore ---------------------------------------------
 

@@ -43,12 +43,14 @@ class CalibrationView(QWidget):
 
     dump_calibration_requested = Signal()
     restore_calibration_requested = Signal(str)   # path to calibration .bin
+    verify_dump_requested = Signal(str)           # path to .bin to verify against
     compare_dumps_requested = Signal(str, str)    # (path_a, path_b)
 
     def __init__(self, state: AppState, parent=None):
         super().__init__(parent)
         self.state = state
         self.setObjectName("ContentRoot")
+        self._last_dump_path: str | None = None
 
         self._build_ui()
         self.state.eeprom_loaded.connect(self._refresh_status)
@@ -144,6 +146,38 @@ class CalibrationView(QWidget):
 
         actions.addWidget(restore_box, 0, 1)
 
+        # ---- Verify card ---------------------------------------------------
+        # Re-reads calibration from the radio and compares it byte-for-byte
+        # against a reference dump (defaults to the most recent one taken
+        # this session). Identical = the saved dump is a stable, trustworthy
+        # backup. Differs = the link is unstable or the dump is stale —
+        # either way, do not trust it for a future restore.
+        verify_box = QGroupBox("VERIFY — safe, read-only")
+        verify_layout = QVBoxLayout(verify_box)
+        verify_layout.setSpacing(10)
+
+        verify_text = QLabel(
+            "Re-reads the calibration region from the radio and compares it "
+            "to a saved .bin (defaults to the dump you just took). If they "
+            "match byte-for-byte, your backup is trustworthy. If they "
+            "differ, either the link is flaky or the dump is from a "
+            "different radio — don't restore from it."
+        )
+        verify_text.setWordWrap(True)
+        verify_text.setStyleSheet("color: #a6adc8; font-size: 13px;")
+        verify_layout.addWidget(verify_text)
+
+        verify_btn_row = QHBoxLayout()
+        self.verify_btn = QPushButton(" Verify dump…")
+        self.verify_btn.setObjectName("SecondaryBtn")
+        self.verify_btn.setIconSize(QSize(16, 16))
+        self.verify_btn.clicked.connect(self._on_verify)
+        verify_btn_row.addWidget(self.verify_btn)
+        verify_btn_row.addStretch()
+        verify_layout.addLayout(verify_btn_row)
+
+        actions.addWidget(verify_box, 1, 0)
+
         # ---- Compare card --------------------------------------------------
         compare_box = QGroupBox("COMPARE — diagnostic only")
         compare_layout = QVBoxLayout(compare_box)
@@ -151,8 +185,8 @@ class CalibrationView(QWidget):
 
         compare_text = QLabel(
             "Diff two calibration .bin files byte-by-byte. Useful for "
-            "verifying that a backup matches the radio's current state, or "
-            "auditing what a restore would change before you commit to it."
+            "auditing what a restore would change before you commit to it, "
+            "without touching the radio."
         )
         compare_text.setWordWrap(True)
         compare_text.setStyleSheet("color: #a6adc8; font-size: 13px;")
@@ -167,7 +201,7 @@ class CalibrationView(QWidget):
         compare_btn_row.addStretch()
         compare_layout.addLayout(compare_btn_row)
 
-        actions.addWidget(compare_box, 1, 0, 1, 2)
+        actions.addWidget(compare_box, 1, 1)
 
         wrap = QWidget()
         wrap.setLayout(actions)
@@ -178,6 +212,7 @@ class CalibrationView(QWidget):
         primary_text = "#ffffff" if palette.name == "light" else palette.base
         self.dump_btn.setIcon(svg_icon("download", primary_text, 16))
         self.restore_btn.setIcon(svg_icon("alert", "#1e1e2e", 16))
+        self.verify_btn.setIcon(svg_icon("refresh", palette.text, 16))
         self.compare_btn.setIcon(svg_icon("layers", palette.text, 16))
 
     # ---------------------------------------------------------- Status sync
@@ -192,6 +227,7 @@ class CalibrationView(QWidget):
             )
             self.dump_btn.setEnabled(False)
             self.restore_btn.setEnabled(False)
+            self.verify_btn.setEnabled(False)
             return
 
         self.profile_label.setText(profile.name)
@@ -208,6 +244,7 @@ class CalibrationView(QWidget):
                                        "for this profile.")
         self.dump_btn.setEnabled(True)
         self.restore_btn.setEnabled(True)
+        self.verify_btn.setEnabled(True)
 
     # ------------------------------------------------------------- Handlers
 
@@ -263,6 +300,36 @@ class CalibrationView(QWidget):
         if ans2 != QMessageBox.StandardButton.Yes:
             return
         self.restore_calibration_requested.emit(path)
+
+    def set_last_dump_path(self, path: str) -> None:
+        """Remember the most recent successful dump so Verify can default
+        to it. Called by MainWindow after `_on_calibration_dumped` writes
+        the file."""
+        self._last_dump_path = path
+
+    def _on_verify(self) -> None:
+        default_dir = ""
+        if self._last_dump_path:
+            default_dir = self._last_dump_path
+        path, _ = QFileDialog.getOpenFileName(
+            self, "Pick the dump to verify", default_dir,
+            "Calibration dump (*.bin *.dat)"
+        )
+        if not path:
+            return
+        try:
+            sz = Path(path).stat().st_size
+        except OSError as e:
+            QMessageBox.critical(self, "Error", str(e))
+            return
+        if sz not in (0x190, 0x200, 0x300):
+            QMessageBox.critical(
+                self, "Wrong file size",
+                f"Selected file is {sz} bytes, which doesn't match any "
+                f"known calibration layout (400 / 512 / 768)."
+            )
+            return
+        self.verify_dump_requested.emit(path)
 
     def _on_compare(self) -> None:
         path_a, _ = QFileDialog.getOpenFileName(
