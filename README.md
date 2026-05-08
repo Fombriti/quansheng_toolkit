@@ -54,7 +54,7 @@ Channels • scan lists • settings • calibration • DTMF • boot logo • 
 - **One-click flashing of bundled firmwares.** The Firmware tab ships **9 verified `.bin` images** — F4HWN open-source builds and Quansheng stock — with an anti-brick allowlist that refuses any combination not matching the live bootloader version.
 - **Live LCD mirror over USB.** See the radio's screen in real time on the desktop, save PNG screenshots. Verified end-to-end on F4HWN UV-K1(8) v3 / UV-K5 V3.
 - **CHIRP-compatible channel CSV.** Import and export the channel grid in the same 21-column format CHIRP uses, with scan-list assignments encoded in the `Comment` column for clean round-trip.
-- **Calibration dump + restore.** Profile-aware byte-count check, byte-level diff between two dumps, jump-to-region hex viewer.
+- **Calibration dump · verify · restore.** One-click backup of the per-unit RF trim, plus a Verify pass that re-reads the radio and diffs it byte-for-byte against the saved `.bin` so you know the dump is stable *before* you ever rely on it. Two-dialog confirmation on restore, profile-aware byte-count check, jump-to-region hex viewer.
 - **DTMF contacts editor.** Full 16-slot phonebook at EEPROM `0x1C00`, with validated input (printable ASCII names, DTMF chars `0–9 A–D * #`).
 - **Settings editor.** Every named setting in the F4HWN 5.x and stock registries (~110 entries combined), with live search, modified counter and one-click revert.
 - **Read-only hex viewer** with jump-to-address and hex-pattern search — the right tool when you need to look at *something* the GUI doesn't surface yet.
@@ -286,7 +286,7 @@ pyinstaller --onefile --windowed \
 - [x] Settings registry covering F4HWN 5.4 (~76 entries) + Quansheng stock (~34 entries)
 - [x] PySide6 GUI with cockpit themes (5 palette families × Light/Dark)
 - [x] Channels view with two-stage tone editor and bulk-edit ribbon
-- [x] Calibration dump + restore with safety guards
+- [x] Calibration dump + verify (re-read & diff) + restore with safety guards
 - [x] DTMF contacts editor
 - [x] Live LCD mirror (Display Mirror tab)
 - [x] Hex viewer for diagnostics
